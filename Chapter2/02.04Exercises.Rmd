@@ -106,12 +106,26 @@ a.  **Provide a sketch of typical (squared) bias, variance, training error,
 ```{r}
 auto <- ISLR2::Auto
 auto$origin <- factor(auto$origin)
+auto$manufacter <- str_extract(auto$name,'^.+?(?=\\s)') |>
+  factor()
 summary(auto)
 lapply(auto[,c(1:7)],sd)
+
+library(stringr)
+
+
+
+
 ```
 
 ```{r}
-lapply(c(1:7),function(x) {scatter.smooth(auto$mpg,auto[,x],lpars=list(col='red',lwd=1))})
+par(mfrow=c(2,3))
+lapply(c(2:7),function(x) {scatter.smooth(auto$mpg,auto[,x],
+                                          lpars=list(col='red',lwd=1),ylab=names(auto)[x])})
+
+par(mfrow=c(1,2))
+lapply(c(8,10),function(x) {plot(auto[,x],auto$mpg,ylab=names(auto)[x])})
+
 ```
 
 
